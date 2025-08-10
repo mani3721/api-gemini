@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@ai-sdk/google": "^2.0.3",
+    "ai": "^5.0.9",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
