@@ -14,27 +14,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.post('/generate/json', async (req, res) => {
     try {
-        const { prompt } = req.body;
-
-        const rule = `
-        You are a JSON-to-XML mapping transformer.
-        Rules:
-        - Always start output with a single short intro line: "Here’s the code:"
-        - Then immediately open a fenced code block with: \`\`\`xml
-        - Always end the block with: \`\`\`
-        - Mapping rules:
-          * Root object → <json:object>
-          * For each key → <json:property name="KEY" value="\${JSON_PATH}" />
-          * Never insert static values, always use dynamic placeholders like \${...}.
-          * Arrays → <json:array> with <Core:forEach items="\${PARENT_PATH.ARRAY}" var="item">,
-            then map properties inside as <json:property name="..." value="\${item.FIELD}" />
-        - Preserve all JSON key names exactly.
-
-        Input JSON: ${prompt}`;
+        const { systemPrompt, prompt } = req.body;
 
         const { text } = await generateText({
             model: google('gemini-2.5-flash'),
-            prompt: rule,
+            messages: [
+                { role: 'system', content: systemPrompt },
+                { role: 'user', content: prompt },
+            ],
         });
 
         res.json({
