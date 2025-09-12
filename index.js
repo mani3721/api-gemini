@@ -203,9 +203,9 @@ app.post('/generate/app', upload.single('file'), async (req, res) => {
         if (isPostmanCollection) {
             try {
                 // Process Postman collection and generate the specific response format
-                console.log('Processing Postman collection...');
+                // console.log('Processing Postman collection...');
                 const response = await generatePostmanCollectionResponse(collectionData);
-                console.log('Generated response:', JSON.stringify(response, null, 2));
+                // console.log('Generated response:', JSON.stringify(response, null, 2));
                 
                 // Clean up temporary file
                 fs.unlinkSync(tempFilePath);
@@ -324,18 +324,18 @@ async function generatePostmanCollectionResponse(collectionData) {
     - Original Description: ${originalDescription}
     - Total Endpoints: ${collectionData.item?.length || 0}
     - GET Endpoints: ${collectionData.item?.filter(item => item.request?.method?.toUpperCase() === 'GET').length || 0}
-    
+
     Requirements:
     1. Service Name: 2-4 words, professional, business-friendly
     2. Description: 1-2 sentences explaining what this service does for users
     3. Focus on business value and user benefits
     4. Use clear, non-technical language when possible
-    
+
     Examples:
     - "Trading Platform API" instead of "Zerodha Kite RESTful API"
     - "Financial Data Service" instead of "Stock Market API"
     - "User Management System" instead of "Authentication API"
-    
+
     IMPORTANT: Respond ONLY with valid JSON, no markdown, no explanations:
     {
       "serviceName": "concise business name here",
