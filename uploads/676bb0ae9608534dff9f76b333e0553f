@@ -1,0 +1,435 @@
+{
+	"info": {
+		"_postman_id": "4466c455-40b5-4eec-8af5-f77a0a510201",
+		"name": "Zerodha Kite API - 5 GET Methods Only",
+		"description": "# 🚀 Zerodha Kite API - Essential GET Methods\n\nThis collection contains only the 5 most essential GET methods for Zerodha Kite API:\n- Profile: Get user profile information\n- Margins: Get account margins and balance\n- Orders: Get all orders\n- Positions: Get current positions\n- Holdings: Get portfolio holdings\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Add token details in variables section**\n\nThis will be used for all the GET requests\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size. Don't forget to click on Visualize tab to view the data in table format.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35342364"
+	},
+	"item": [
+		{
+			"name": "Profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"var template = `",
+							"<style type=\"text/css\">",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+							"    .tftable tr {background-color:#ffffff;}",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+							"    .tftable tr:hover {background-color:#e0ffff;}",
+							"</style>",
+							"",
+							"<table class=\"tftable\" border=\"1\">",
+							"    <tr>",
+							"        <th>User ID</th>",
+							"        <th>User Type</th>",
+							"        <th>Email</th>",
+							"        <th>User Name</th>",
+							"        <th>User Shortname</th>",
+							"        <th>Broker</th>",
+							"        <th>Exchanges</th>",
+							"        <th>Products</th>",
+							"        <th>Order Types</th>",
+							"        <th>Avatar URL</th>",
+							"        <th>Demat Consent</th>",
+							"    </tr>",
+							"    <tr>",
+							"        <td>{{response.data.user_id}}</td>",
+							"        <td>{{response.data.user_type}}</td>",
+							"        <td>{{response.data.email}}</td>",
+							"        <td>{{response.data.user_name}}</td>",
+							"        <td>{{response.data.user_shortname}}</td>",
+							"        <td>{{response.data.broker}}</td>",
+							"        <td>{{response.data.exchanges}}</td>",
+							"        <td>{{response.data.products}}</td>",
+							"        <td>{{response.data.order_types}}</td>",
+							"        <td>{{response.data.avatar_url}}</td>",
+							"        <td>{{response.data.meta.demat_consent}}</td>",
+							"    </tr>",
+							"</table>",
+							"`;",
+							"",
+							"function constructVisualizerPayload() {",
+							"    return { response: pm.response.json() }",
+							"}",
+							"",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"strictSSL": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{api_key}}:{{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/user/profile",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"profile"
+					]
+				},
+				"description": "Get user profile information including user details, broker info, exchanges, products, and order types."
+			},
+			"response": []
+		},
+		{
+			"name": "Margins",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var template = `",
+							"<style type=\"text/css\">",
+							".tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+							".tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+							".tftable tr {background-color:#ffffff;}",
+							".tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+							".tftable tr:hover {background-color:#e0ffff;}",
+							"</style>",
+							"",
+							"<table class=\"tftable\" border=\"1\">",
+							"<tr>",
+							"    <th>Equity Segment</th>",
+							"    <th>Net Equity Value</th>",
+							"    <th>Cash</th>",
+							"    <th>Live Balance</th>",
+							"    <th>Opening Balance</th>",
+							"</tr>",
+							"<tr>",
+							"    <td>Equity</td>",
+							"    <td>{{response.data.equity.net}}</td>",
+							"    <td>{{response.data.equity.available.cash}}</td>",
+							"    <td>{{response.data.equity.available.live_balance}}</td>",
+							"    <td>{{response.data.equity.available.opening_balance}}</td>",
+							"</tr>",
+							"<tr>",
+							"    <td>Commodity</td>",
+							"    <td>{{response.data.commodity.net}}</td>",
+							"    <td>{{response.data.commodity.available.cash}}</td>",
+							"    <td>{{response.data.commodity.available.live_balance}}</td>",
+							"    <td>{{response.data.commodity.available.opening_balance}}</td>",
+							"</tr>",
+							"</table>`;",
+							"",
+							"function constructVisualizerPayload() {",
+							"    return {response: pm.response.json()};",
+							"}",
+							"",
+							"pm.visualizer.set(template, constructVisualizerPayload());",
+							"pm.test(\"Response body structure is valid\", function () {",
+							"    var responseJSON = pm.response.json();",
+							"    pm.expect(responseJSON).to.have.property('data');",
+							"    pm.expect(responseJSON.data).to.have.property('equity');",
+							"    pm.expect(responseJSON.data).to.have.property('commodity');",
+							"});",
+							"",
+							"pm.test(\"Check 'net', 'available', and 'utilised' values for equity segment\", function () {",
+							"    var equityData = pm.response.json().data.equity;",
+							"    pm.expect(equityData).to.have.property('net').that.is.a('number');",
+							"    pm.expect(equityData.available).to.be.an('object');",
+							"    pm.expect(equityData.utilised).to.be.an('object');",
+							"});",
+							"",
+							"pm.test(\"Check 'net', 'available', and 'utilised' values for commodity segment\", function () {",
+							"    var commodityData = pm.response.json().data.commodity;",
+							"    pm.expect(commodityData).to.have.property('net').that.is.a('number');",
+							"    pm.expect(commodityData.available).to.be.an('object');",
+							"    pm.expect(commodityData.utilised).to.be.an('object');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{api_key}}:{{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/user/margins",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"margins"
+					]
+				},
+				"description": "Get account margins and balance information for equity and commodity segments."
+			},
+			"response": []
+		},
+		{
+			"name": "Orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"var template = `",
+							"<style type=\"text/css\">",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+							"    .tftable tr {background-color:#ffffff;}",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+							"    .tftable tr:hover {background-color:#e0ffff;}",
+							"</style>",
+							"",
+							"<table class=\"tftable\" border=\"1\">",
+							"    <tr>",
+							"        <th>Placed By</th>",
+							"        <th>Order ID</th>",
+							"        <th>Status</th>",
+							"        <th>Order Timestamp</th>",
+							"        <th>Quantity</th>",
+							"        <th>Price</th>",
+							"    </tr>",
+							"    ",
+							"    {{#each response.data}}",
+							"        <tr>",
+							"            <td>{{placed_by}}</td>",
+							"            <td>{{order_id}}</td>",
+							"            <td>{{status}}</td>",
+							"            <td>{{order_timestamp}}</td>",
+							"            <td>{{quantity}}</td>",
+							"            <td>{{price}}</td>",
+							"        </tr>",
+							"    {{/each}}",
+							"</table>",
+							"`;",
+							"",
+							"function constructVisualizerPayload() {",
+							"    return {response: pm.response.json()}",
+							"}",
+							"",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{api_key}}:{{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/orders",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders"
+					]
+				},
+				"description": "Get all orders placed by the user with their current status and details."
+			},
+			"response": []
+		},
+		{
+			"name": "Positions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{api_key}}:{{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/portfolio/positions",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"portfolio",
+						"positions"
+					]
+				},
+				"description": "Get current positions in the portfolio including day and net positions."
+			},
+			"response": []
+		},
+		{
+			"name": "Holdings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"<style type=\"text/css\">\r",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"    .tftable tr {background-color:#ffffff;}\r",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"    .tftable tr:hover {background-color:#e0ffff;}\r",
+							"</style>\r",
+							"\r",
+							"<table class=\"tftable\" border=\"1\">\r",
+							"    <tr>\r",
+							"        <th>Trading Symbol</th>\r",
+							"        <th>Quantity (qty)</th>\r",
+							"        <th>Average Price</th>\r",
+							"        <th>Last Price</th>\r",
+							"        <th>Profit and Loss (pnl)</th>\r",
+							"    </tr>\r",
+							"    \r",
+							"    {{#each response.data}}\r",
+							"        <tr>\r",
+							"            <td>{{tradingsymbol}}</td>\r",
+							"            <td>{{quantity}}</td>\r",
+							"            <td>{{average_price}}</td>\r",
+							"            <td>{{last_price}}</td>\r",
+							"            <td>{{pnl}}</td>\r",
+							"        </tr>\r",
+							"    {{/each}}\r",
+							"</table>\r",
+							"`;\r",
+							"\r",
+							"function constructVisualizerPayload() {\r",
+							"    return {response: pm.response.json()};\r",
+							"}\r",
+							"\r",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{api_key}}:{{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/portfolio/holdings",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"portfolio",
+						"holdings"
+					]
+				},
+				"description": "Get portfolio holdings with quantity, average price, last price, and P&L information."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://api.kite.trade"
+		},
+		{
+			"key": "api_key",
+			"value": "8qxrjlxzt34n3t9a",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "l009ZzEeJf8dboa66vHgKIvf8Z5D3qFS",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}
