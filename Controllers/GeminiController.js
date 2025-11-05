@@ -940,7 +940,10 @@ export const CollectionList = async (req, res) => {
             throw new Error(`API request failed with status: ${response.status}`);
         }
 
-        const data = await response.json();
+        const apiResponse = await response.json();
+
+        // Extract the inner data from the API response
+        const data = apiResponse.data || apiResponse;
 
         res.json({
             success: true,
