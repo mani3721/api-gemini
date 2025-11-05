@@ -922,5 +922,38 @@ async function generatePostmanCollectionResponse(collectionData) {
     return response;
 }
 
+export const CollectionList = async (req, res) => {
+    try {
+        // Extract query parameters from request or use defaults
+        const pageSize = req.query.pageSize || 30;
+        const page = req.query.page || 1;
+        const order = req.query.order || 'default';
+        const locale = req.query.locale || 'en-US';
+
+        // Build the API URL with query parameters
+        const apiUrl = `https://api.apidog.com/api/v1/public-projects?pageSize=${pageSize}&page=${page}&order=${order}&locale=${locale}`;
+
+        // Make the API request
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) {
+            throw new Error(`API request failed with status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        res.json({
+            success: true,
+            data: data
+        });
+    } catch (err) {
+        console.error('CollectionList API Error:', err);
+        res.status(500).json({
+            success: false,
+            error: err.message
+        });
+    }
+}
+
 // Export multer configuration for use in routes
 export { upload };
