@@ -925,7 +925,7 @@ async function generatePostmanCollectionResponse(collectionData) {
 export const CollectionList = async (req, res) => {
     try {
         // Extract query parameters from request or use defaults
-        const pageSize = req.query.pageSize || 30;
+        const pageSize = req.query.pageSize || 100;
         const page = req.query.page || 1;
         const order = req.query.order || 'default';
         const locale = req.query.locale || 'en-US';
